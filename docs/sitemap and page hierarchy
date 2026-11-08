@@ -1,0 +1,25 @@
+/                        Landing Page (P0)
+│                        └─ URL submission form
+│
+/scan                    Scan Loading Page (P0)
+│                        └─ progress + module status; auto-redirects on completion
+│
+/results/:scanId         Results Dashboard (P0)
+│   ├─ summary: URL, score, classification, confidence
+│   ├─ module status overview
+│   ├─ key findings + recommended actions
+│   └─ "Report this site" entry point (P1)
+│
+/results/:scanId/details Detailed Analysis (P0)
+│   ├─ URL & Domain
+│   ├─ Threat Reputation
+│   ├─ SSL/TLS Certificate
+│   └─ Security Headers & Redirects
+│
+/reports                 Community Reports (P1)
+│   ├─ list of reported URLs
+│   └─ submit-report form (page or modal, TBD)
+│
+/history                 Scan History (P2)
+/about                   About / Methodology (P1)
+*                        404 Not Found

@@ -1,0 +1,37 @@
+veridion-frontend/
+├── public/
+├── src/
+│   ├── main.jsx
+│   ├── App.jsx                  # router setup
+│   ├── routes.jsx               # route table
+│   ├── styles/
+│   │   ├── index.css            # Tailwind entry + global styles
+│   │   └── tokens.css           # design tokens (colours, fonts) from designer
+│   ├── components/
+│   │   ├── layout/
+│   │   ├── ui/                  # primitives
+│   │   └── common/              # ErrorState, EmptyState, etc.
+│   ├── features/
+│   │   ├── scan/                # UrlForm, ScanProgress, useScan hook
+│   │   ├── results/             # dashboard + detail panels
+│   │   ├── reports/             # community UI + hooks
+│   │   ├── history/
+│   │   └── about/
+│   ├── pages/                   # thin route-level components
+│   ├── services/
+│   │   ├── apiClient.js         # fetch wrapper (base URL, timeout, errors)
+│   │   ├── scanService.js
+│   │   ├── reportService.js
+│   │   └── adapters/            # API response -> UI shape
+│   ├── mocks/
+│   │   ├── scenarios/           # one fixture per PRD §11 test case
+│   │   └── mockServer.js        # fake service used while backend isn't ready
+│   ├── hooks/                   # shared hooks (e.g. useLocalStorage)
+│   ├── utils/                   # url validation, formatters, constants
+│   └── context/                 # only if truly needed
+├── .env.example
+├── .env.development
+├── index.html
+├── vite.config.js
+├── tailwind config (depends on version, see below)
+└── package.json

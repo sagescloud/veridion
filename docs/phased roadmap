@@ -1,0 +1,14 @@
+Phased roadmap (MVP first)
+Phase	Goal	Needs from designer
+0. Decisions	Resolve the blocking questions in section 8; agree the response schema	—
+1. Setup	Vite + React + Tailwind + Router running; repo, branches, folder structure, .env files	—
+2. Foundation	Design tokens, fonts, AppShell, UI primitives	Palette, fonts, base component styles
+3. Landing + input	Landing page, UrlForm, validation, basic routing	Landing layout
+4. Data layer	Mock fixtures, apiClient, scanService, adapter, useScan	—
+5. Loading + dashboard	Scan loading page, results dashboard with all P0 states	Dashboard and loading layouts
+6. Detailed analysis	Four module panels, evidence sections	Detail layouts
+7. Integration	Swap mocks for the real API, fix mismatches, error handling	Backend readiness
+8. Community reports (P1)	Report list, form, “previously reported” banner	Reports layout
+9. About + polish	Methodology page, responsive pass, accessibility pass, empty/error states	Mobile layouts
+10. Deploy + demo	Vercel deploy, end-to-end testing with safe test URLs	—
+Stretch (P2)	Scan history	—
