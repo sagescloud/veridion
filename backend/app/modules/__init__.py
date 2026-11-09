@@ -10,6 +10,7 @@ from app.modules.url_domain import run as run_url_domain
 from app.modules.security_config import SecurityConfigModule
 from app.modules.website_behaviour import WebsiteBehaviourModule
 from app.modules.certificate import CertificateModule
+from app.modules.threat_reputation import ThreatReputationModule
 
 
 class UrlDomainModule:
@@ -22,7 +23,7 @@ class UrlDomainModule:
 def get_modules() -> list[AnalysisModule]:
     return [
         UrlDomainModule(),
-        NotImplementedModule("threat_reputation"),
+        ThreatReputationModule(),
         CertificateModule(),
         SecurityConfigModule(),
         WebsiteBehaviourModule(),
