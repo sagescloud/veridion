@@ -272,3 +272,41 @@ async def _read_capped(resp: httpx.Response, limit: int) -> tuple[bytes, bool]:
             return bytes(buf), True
         buf += chunk
     return bytes(buf), False
+
+
+async def safe_post(
+    client: httpx.AsyncClient,
+    url: str,
+    settings: Settings,
+    *,
+    data: dict[str, str],
+    headers: dict[str, str] | None = None,
+) -> FetchResult:
+    """POST safely to a fixed, validated external provider endpoint.
+
+    Redirects are never followed. The guarded transport independently
+    validates the destination at connection time.
+    """
+    async with asyncio.timeout(settings.http_total_timeout_s):
+        parsed = parse_url(url)
+        await assert_destination_allowed(parsed, settings)
+
+        async with client.stream(
+            "POST",
+            parsed.normalized,
+            data=data,
+            headers=headers or {},
+        ) as resp:
+            body, truncated = await _read_capped(
+                resp, settings.max_response_bytes
+            )
+            return FetchResult(
+                final_url=parsed.normalized,
+                status_code=resp.status_code,
+                headers={k.lower(): v for k, v in resp.headers.items()},
+                body=body,
+                truncated=truncated,
+                redirect_chain=[
+                    RedirectHop(url=parsed.normalized, status_code=resp.status_code)
+                ],
+            )

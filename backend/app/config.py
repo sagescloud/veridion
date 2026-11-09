@@ -49,8 +49,10 @@ class Settings(BaseSettings):
     # Only enable behind a reverse proxy you control (Render, Fly, etc.).
     trust_proxy_headers: bool = False
 
-    # --- Threat intel providers (owned by P's modules) -------------------
+    # --- Threat intel providers ------------------------------------------
     google_safe_browsing_api_key: str | None = None
+    urlhaus_auth_key: str | None = None
+    phishtank_api_key: str | None = None
 
     @model_validator(mode="after")
     def _production_guard(self) -> "Settings":
