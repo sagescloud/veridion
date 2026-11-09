@@ -50,16 +50,26 @@ def test_blocked_destination_leaks_nothing(client):
     assert err["code"] == "BLOCKED_DESTINATION" and "127" not in err["message"]
 
 
-def test_scan_with_stub_modules_is_inconclusive_not_safe(client):
+def test_scan_with_partial_modules_has_low_confidence(client):
     r = client.post("/api/scan", json={"url": "https://example.com/login"})
     assert r.status_code == 200
+
     body = r.json()
-    assert body["schema_version"] == "0.1-proposal" and body["status"] == "completed"
-    assert body["overall"]["classification"] == "inconclusive" and body["overall"]["risk_score"] is None
-    assert len(body["modules"]) == 5 and all(m["risk_score"] is None for m in body["modules"])
-    # retrievable afterwards
-    again = client.get(f"/api/scan/{body['scan_id']}")
-    assert again.status_code == 200 and again.json()["scan_id"] == body["scan_id"]
+
+    assert body["schema_version"] == "0.1-proposal"
+    assert body["status"] == "completed"
+
+    assert body["modules"][0]["id"] == "url_domain"
+    assert body["modules"][0]["status"] == "completed"
+
+    assert body["overall"]["classification"] == "low"
+    assert body["overall"]["risk_score"] == 15
+    assert body["overall"]["confidence"]["level"] == "low"
+
+    assert sum(
+        module["status"] == "completed"
+        for module in body["modules"]
+    ) == 1
 
 
 def test_unknown_scan_id_404(client):
