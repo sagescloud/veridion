@@ -9,6 +9,7 @@ from app.modules.stubs import NotImplementedModule
 from app.modules.url_domain import run as run_url_domain
 from app.modules.security_config import SecurityConfigModule
 from app.modules.website_behaviour import WebsiteBehaviourModule
+from app.modules.certificate import CertificateModule
 
 
 class UrlDomainModule:
@@ -22,7 +23,7 @@ def get_modules() -> list[AnalysisModule]:
     return [
         UrlDomainModule(),
         NotImplementedModule("threat_reputation"),
-        NotImplementedModule("certificate"),
+        CertificateModule(),
         SecurityConfigModule(),
         WebsiteBehaviourModule(),
     ]
