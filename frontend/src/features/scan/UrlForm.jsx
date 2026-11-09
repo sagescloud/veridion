@@ -2,7 +2,7 @@ import { useId, useState } from 'react'
 import Button from '../../components/ui/Button'
 import { validateUrl } from '../../utils/validateUrl'
 
-export default function UrlForm({ onSubmit }) {
+export default function UrlForm({ onSubmit, isLoading = false }) {
   const [value, setValue] = useState('')
   const [error, setError] = useState('')
 
@@ -58,9 +58,9 @@ export default function UrlForm({ onSubmit }) {
           />
         </div>
 
-        <Button type="submit" size="lg">
-          Scan URL
-        </Button>
+        <Button type="submit" size="lg" disabled={isLoading}>
+  {isLoading ? 'Scanning...' : 'Scan URL'}
+</Button>
       </div>
 
       {error ? (
