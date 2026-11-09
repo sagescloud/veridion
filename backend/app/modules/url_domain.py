@@ -131,7 +131,7 @@ def _analyse_hostname(hostname: str) -> list[Finding]:
     # --- IDN/punycode detection -------------------------------------------
     try:
         import idna  # type: ignore
-        puny = idna.encode(hostname)
+        puny = idna.encode(hostname).decode("ascii")
         if puny != hostname.lower():
             findings.append(Finding(
                 id="f4",
