@@ -1,0 +1,84 @@
+@import "tailwindcss";
+@import "./styles/theme.css";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+    background-color: var(--color-canvas);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-canvas);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  /* Faint square grid, used as a decorative background */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgb(57 255 122 / 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(57 255 122 / 0.07) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Fades a decorative layer out towards its edges */
+  .fade-mask {
+    -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 70%);
+    mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 70%);
+  }
+
+  .hero-glow {
+    background: radial-gradient(
+      ellipse 60% 50% at 70% 20%,
+      rgb(57 255 122 / 0.14),
+      transparent 70%
+    );
+  }
+
+  /* CRT-style horizontal lines. Parent needs position: relative. */
+  .scanlines::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgb(0 0 0 / 0.18) 0,
+      rgb(0 0 0 / 0.18) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  }
+
+  .text-glow {
+    text-shadow: 0 0 20px rgb(57 255 122 / 0.5);
+  }
+}
