@@ -1,10 +1,17 @@
+
 import Container from '../../components/layout/Container'
 import UrlForm from '../scan/UrlForm'
 import ScanPendingNotice from '../scan/ScanPendingNotice'
 import HeroTerminal from './HeroTerminal'
 import { heroChips } from '../../data/landingContent'
 
-export default function Hero({ onScan, submittedUrl }) {
+export default function Hero({
+  onScan,
+  submittedUrl,
+  status,
+  result,
+  error,
+}) {
   return (
     <section id="scan" className="relative isolate scroll-mt-16 overflow-hidden">
       <div aria-hidden="true" className="hero-glow absolute inset-0 -z-10" />
@@ -28,10 +35,20 @@ export default function Hero({ onScan, submittedUrl }) {
           </p>
 
           <div className="mt-8 max-w-xl">
-            <UrlForm onSubmit={onScan} />
+            <UrlForm
+              onSubmit={onScan}
+              isLoading={status === 'scanning'}
+            />
           </div>
 
-          {submittedUrl && <ScanPendingNotice url={submittedUrl} />}
+          {submittedUrl && (
+            <ScanPendingNotice
+              url={submittedUrl}
+              status={status}
+              result={result}
+              error={error}
+            />
+          )}
 
           <ul aria-label="Analysis layers" className="mt-8 flex flex-wrap gap-2">
             {heroChips.map((chip) => (
