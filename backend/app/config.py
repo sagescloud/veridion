@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     app_env: str = "development"  # "development" | "production"
     app_version: str = "0.1.0"
     # Comma-separated list of allowed browser origins (your Vercel URL in prod).
-    cors_origins: str = "http://localhost:5173"
+    cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
 
     # --- Supabase (community reports + scan persistence) -----------------
     supabase_url: str | None = None
