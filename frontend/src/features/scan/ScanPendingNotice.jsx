@@ -58,6 +58,29 @@ export default function ScanPendingNotice({
             </p>
           </div>
 
+                    {result.coverage &&
+            (result.coverage.partial > 0 ||
+              result.coverage.notRun > 0) && (
+              <div className="border border-risk-high/40 bg-surface p-3">
+                <p className="font-mono text-xs tracking-widest text-risk-high">
+                  ASSESSMENT INCOMPLETE
+                </p>
+
+                <p className="mt-2 text-sm text-ink">
+                  Not all security checks could be completed.
+                  Interpret this result with caution.
+                </p>
+
+                <p className="mt-2 font-mono text-xs text-ink-muted">
+                  {result.coverage.completed} COMPLETED
+                  {" · "}
+                  {result.coverage.partial} PARTIAL
+                  {" · "}
+                  {result.coverage.notRun} NOT COMPLETED
+                </p>
+              </div>
+            )}
+
           {result.summary && (
             <div>
               <p className="font-mono text-xs tracking-widest text-accent">
