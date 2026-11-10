@@ -1,8 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
-import '@fontsource/silkscreen/400.css'
-import '@fontsource/silkscreen/700.css'
+import '@fontsource-variable/pixelify-sans'
 import '@fontsource-variable/inter'
 import '@fontsource-variable/jetbrains-mono'
 

@@ -1,17 +1,50 @@
 @import "tailwindcss";
 @import "./styles/theme.css";
 
+/* ---------- DARK MODE: override the tokens, nothing else changes ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-canvas: #0d1a15;
+  --color-surface: #142720;
+  --color-surface-raised: #1a3128;
+  --color-surface-sage: #21392e;
+
+  --color-line: #28443a;
+  --color-line-strong: #3f6552;
+
+  --color-ink: #e6f0dc;
+  --color-ink-muted: #a9c2b0;
+  --color-ink-faint: #8aa595;
+
+  --color-accent: #6fcf8e;
+  --color-accent-dim: #1f3d2c;
+  --color-cobalt: #6fcf8e;
+  --color-navy: #3f8f5d;
+  --color-sage: #3f6b50;
+  --color-meadow: #43895a;
+  --color-forest: #a9e5bd;
+  --color-pink-soft: #3a2830;
+
+  --color-bevel-hi: #4b6e5a;
+  --color-bevel-lo: #07110d;
+
+  --color-risk-low: #6fd6a3;
+  --color-risk-moderate: #e0b45a;
+  --color-risk-high: #f0955a;
+  --color-risk-critical: #f27a82;
+
+  --shadow-pixel: 4px 4px 0 #07110d;
+  --shadow-pixel-sm: 2px 2px 0 #07110d;
+  --shadow-window: 6px 6px 0 rgb(0 0 0 / 0.45);
+  --shadow-glow: 0 0 0 3px rgb(111 207 142 / 0.15);
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
-    background-color: var(--color-canvas);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
+    color-scheme: light;
+    background: var(--color-canvas);
   }
 
   body {
@@ -25,12 +58,12 @@
   }
 
   ::selection {
-    background-color: var(--color-accent);
-    color: var(--color-canvas);
+    background: var(--color-accent-dim);
+    color: var(--color-ink);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 3px solid var(--color-cobalt);
     outline-offset: 3px;
   }
 
@@ -41,44 +74,211 @@
 }
 
 @layer components {
-  /* Faint square grid, used as a decorative background */
-  .bg-grid {
+  .font-pixel { font-family: var(--font-pixel); }
+  .font-mono { font-family: var(--font-mono); }
+
+  /* ---------- legacy classes (kept so unseen components keep working) ---------- */
+  .bg-pixel-grid {
     background-image:
-      linear-gradient(to right, rgb(57 255 122 / 0.07) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(57 255 122 / 0.07) 1px, transparent 1px);
-    background-size: 32px 32px;
+      linear-gradient(to right, rgb(47 125 79 / 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(47 125 79 / 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .pixel-dots {
+    background-image: radial-gradient(var(--color-line-strong) 1.5px, transparent 1.5px);
+    background-size: 12px 12px;
+  }
+  .pixel-divider { border-top: 2px dotted var(--color-line-strong); }
+  .retro-window {
+    overflow: hidden;
+    border: 2px solid var(--color-cobalt);
+    border-radius: 5px;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-window);
+  }
+  .retro-titlebar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; min-height: 38px; padding: 7px 10px;
+    background: var(--color-cobalt); color: var(--color-surface);
+    font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+  }
+  .retro-window-controls { display: flex; align-items: center; gap: 5px; }
+  .retro-window-control {
+    display: grid; width: 20px; height: 20px; place-items: center;
+    border: 1px solid var(--color-navy);
+    background: var(--color-surface); color: var(--color-cobalt);
+    font-size: 12px; line-height: 1;
+  }
+  .retro-inset {
+    border: 2px solid var(--color-line-strong);
+    border-right-color: var(--color-bevel-hi); border-bottom-color: var(--color-bevel-hi);
+    background: var(--color-surface);
+  }
+  .retro-button {
+    border: 2px solid var(--color-cobalt); border-radius: 3px;
+    background: var(--color-cobalt); padding: 9px 16px; color: var(--color-surface);
+    font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+    box-shadow: 2px 2px 0 var(--color-navy);
+  }
+  .retro-button:hover { transform: translate(-1px, -1px); box-shadow: 3px 3px 0 var(--color-navy); }
+  .retro-button:active { transform: translate(1px, 1px); box-shadow: none; }
+  .retro-button-secondary {
+    border: 2px solid var(--color-line-strong); border-radius: 3px;
+    background: var(--color-surface); padding: 9px 16px; color: var(--color-ink);
+    font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+  }
+  .pixel-shadow { box-shadow: var(--shadow-pixel); }
+  .pixel-shadow-sm { box-shadow: var(--shadow-pixel-sm); }
+  .pixel-label { font-family: var(--font-pixel); font-size: 12px; letter-spacing: 0.02em; }
+  .pixel-cursor { animation: blink 1s steps(1) infinite; }
+  .pixel-progress {
+    height: 12px; border: 2px solid var(--color-cobalt);
+    background: var(--color-surface); padding: 2px;
+  }
+  .pixel-progress-fill { height: 100%; background: var(--color-cobalt); }
+  .paper-texture {
+    background-color: var(--color-canvas);
+    background-image: radial-gradient(rgb(75 82 61 / 0.09) 0.6px, transparent 0.6px);
+    background-size: 5px 5px;
   }
 
-  /* Fades a decorative layer out towards its edges */
-  .fade-mask {
-    -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 70%);
-    mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 70%);
+  /* ---------- pixel art canvases ---------- */
+  .pixel-canvas {
+    display: block;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+  }
+  .pixel-scene {
+    object-fit: cover;
+    object-position: 50% 100%;
+  }
+  .float-slow { animation: pixel-float 4s steps(1, end) infinite; }
+
+  /* ---------- Win95-style window ---------- */
+  .win {
+    position: relative;
+    border: 3px solid var(--color-cobalt);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-window);
+  }
+  .win-titlebar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.75rem; padding: 0.4rem 0.6rem;
+    background: var(--color-cobalt); color: var(--color-surface);
+    font-family: var(--font-pixel); font-size: 0.9rem; font-weight: 600;
+    letter-spacing: 0.03em;
+    border-bottom: 2px solid var(--color-navy);
+  }
+  .win-title { display: inline-flex; align-items: center; gap: 0.5rem; min-width: 0; }
+  .win-controls { display: flex; gap: 4px; flex-shrink: 0; }
+  .win-ctl {
+    display: grid; place-items: center; width: 1.3rem; height: 1.3rem;
+    background: var(--color-surface); color: var(--color-navy);
+    border: 2px solid var(--color-navy);
+  }
+  .win-body { background: var(--color-surface); }
+
+  /* ---------- bevelled buttons ---------- */
+  .win-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.45rem 1rem;
+    font-family: var(--font-pixel); font-size: 0.95rem; font-weight: 600;
+    letter-spacing: 0.02em; color: var(--color-ink); background: var(--color-surface-raised);
+    border: 2px solid;
+    border-color: var(--color-bevel-hi) var(--color-bevel-lo) var(--color-bevel-lo) var(--color-bevel-hi);
+    box-shadow: 1px 1px 0 var(--color-bevel-lo);
+  }
+  .win-btn:hover { background: var(--color-surface-sage); }
+  .win-btn:active {
+    border-color: var(--color-bevel-lo) var(--color-bevel-hi) var(--color-bevel-hi) var(--color-bevel-lo);
+    transform: translate(1px, 1px); box-shadow: none;
+  }
+  .win-btn-primary {
+    background: var(--color-cobalt); color: var(--color-surface);
+    border-color:
+      color-mix(in srgb, var(--color-cobalt) 65%, white)
+      var(--color-navy) var(--color-navy)
+      color-mix(in srgb, var(--color-cobalt) 65%, white);
+    box-shadow: 1px 1px 0 var(--color-navy);
+  }
+  .win-btn-primary:hover { background: color-mix(in srgb, var(--color-cobalt) 88%, white); }
+  .win-btn-primary:active {
+    border-color:
+      var(--color-navy)
+      color-mix(in srgb, var(--color-cobalt) 65%, white)
+      color-mix(in srgb, var(--color-cobalt) 65%, white)
+      var(--color-navy);
   }
 
-  .hero-glow {
-    background: radial-gradient(
-      ellipse 60% 50% at 70% 20%,
-      rgb(57 255 122 / 0.14),
-      transparent 70%
-    );
+  .menu-link {
+    padding: 0.3rem 0.65rem;
+    font-family: var(--font-pixel); font-size: 1rem; font-weight: 500;
+    color: var(--color-ink);
+  }
+  .menu-link:hover { background: var(--color-cobalt); color: var(--color-surface); }
+
+  /* ---------- hero typography ---------- */
+  .pixel-title {
+    font-family: var(--font-pixel); font-weight: 700;
+    color: var(--color-cobalt); letter-spacing: 0.01em;
+    text-shadow: 0.05em 0.05em 0 var(--color-surface), 0.1em 0.1em 0 var(--color-navy);
   }
 
-  /* CRT-style horizontal lines. Parent needs position: relative. */
-  .scanlines::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-      to bottom,
-      rgb(0 0 0 / 0.18) 0,
-      rgb(0 0 0 / 0.18) 1px,
-      transparent 1px,
-      transparent 3px
-    );
+  /* ---------- pixel loader ---------- */
+  .pixel-loader {
+    flex: 1; height: 1.2rem; padding: 2px;
+    border: 2px solid var(--color-navy); background: var(--color-surface);
+  }
+  .pixel-loader-fill {
+    height: 100%; width: 0;
+    background: repeating-linear-gradient(90deg, var(--color-cobalt) 0 8px, transparent 8px 10px);
+  }
+  .pixel-loader[data-tone="busy"] .pixel-loader-fill { animation: loader-grow 1.8s steps(12, end) infinite; }
+  .pixel-loader[data-tone="done"] .pixel-loader-fill {
+    width: 100%;
+    background: repeating-linear-gradient(90deg, var(--color-risk-low) 0 8px, transparent 8px 10px);
+  }
+  .pixel-loader[data-tone="fail"] .pixel-loader-fill {
+    width: 100%;
+    background: repeating-linear-gradient(90deg, var(--color-risk-critical) 0 8px, transparent 8px 10px);
   }
 
-  .text-glow {
-    text-shadow: 0 0 20px rgb(57 255 122 / 0.5);
+  /* ---------- taskbar ---------- */
+  .taskbar {
+    position: absolute; inset-inline: 0; bottom: 0; z-index: 20;
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    height: 2.6rem; padding: 0 0.4rem;
+    background: var(--color-surface-sage);
+    border-top: 2px solid var(--color-bevel-hi);
+    box-shadow: 0 -2px 0 var(--color-bevel-lo);
+  }
+  .taskbar-item {
+    display: inline-flex; align-items: center; height: 1.8rem; padding: 0 0.7rem;
+    font-family: var(--font-pixel); font-size: 0.9rem; font-weight: 500;
+    color: var(--color-ink); background: var(--color-surface-raised);
+    border: 2px solid;
+    border-color: var(--color-bevel-lo) var(--color-bevel-hi) var(--color-bevel-hi) var(--color-bevel-lo);
+  }
+}
+
+@keyframes pixel-float {
+  0%, 100% { transform: translateY(0); }
+  25%, 75% { transform: translateY(-4px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes loader-grow {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }

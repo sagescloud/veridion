@@ -1,53 +1,59 @@
 @theme static {
-  /* ---------- Colours (PROVISIONAL: replace with C's palette) ---------- */
-  --color-canvas: #0a0d0b;          /* page background */
-  --color-surface: #0f1411;         /* panels */
-  --color-surface-raised: #151c18;  /* raised panels, title bars */
-  --color-line: #1f2b25;            /* subtle borders */
-  --color-line-strong: #2f4238;     /* stronger borders */
+  /* NOTE: "cobalt", "navy" and "accent" keep their old names so existing
+     components keep working, but they are GREEN now. */
 
-  --color-ink: #e8f1ec;             /* primary text */
-  --color-ink-muted: #94a89c;       /* secondary text */
-  --color-ink-faint: #6f8579;       /* hints, captions (still passes contrast) */
+  --color-canvas: #f1f4e4;
+  --color-surface: #fbfdf3;
+  --color-surface-raised: #e4ecd9;
+  --color-surface-sage: #d3e4cb;
 
-  --color-accent: #39ff7a;          /* terminal green */
-  --color-accent-dim: #1d9c4a;      /* shadows, secondary green */
+  --color-line: #cfd9c3;
+  --color-line-strong: #a3b89d;
 
-  /* Risk scale: green low, amber moderate, orange high, red critical.
-     Low risk is never to be presented as "guaranteed safe". */
-  --color-risk-low: #3ddc84;
-  --color-risk-moderate: #ffc233;
-  --color-risk-high: #ff8a1f;
-  --color-risk-critical: #ff4d5e;
+  --color-ink: #203a2f;
+  --color-ink-muted: #566b5f;
+  --color-ink-faint: #637769;
 
-  /* ---------- Typography ---------- */
-  --font-display: "Silkscreen", "JetBrains Mono Variable", ui-monospace, monospace;
-  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --color-accent: #2f7d4f;
+  --color-accent-dim: #d6ecd9;
+  --color-cobalt: #2f7d4f;
+  --color-navy: #1c4a32;
+  --color-sage: #a9c4a5;
+  --color-meadow: #a9d49a;
+  --color-forest: #2f5d45;
+  --color-pink: #e9a9b8;
+  --color-pink-soft: #f8e4e8;
+
+  --color-bevel-hi: #fbfdf3;
+  --color-bevel-lo: #5f7a66;
+
+  /* Risk colours (all pass contrast on the light surface) */
+  --color-risk-low: #1f7a5f;
+  --color-risk-moderate: #8a6420;
+  --color-risk-high: #a85a1f;
+  --color-risk-critical: #b8434b;
+
+  /* Typography */
+  --font-display: "Pixelify Sans Variable", ui-monospace, monospace;
+  --font-pixel: "Pixelify Sans Variable", ui-monospace, monospace;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
 
-  /* ---------- Shadows ---------- */
-  --shadow-pixel: 4px 4px 0 0 var(--color-accent-dim);
-  --shadow-pixel-sm: 2px 2px 0 0 var(--color-accent-dim);
-  --shadow-glow: 0 0 0 1px rgb(57 255 122 / 0.25), 0 0 28px rgb(57 255 122 / 0.18);
+  /* Retro interface depth */
+  --shadow-pixel: 4px 4px 0 #c4cbb9;
+  --shadow-pixel-sm: 2px 2px 0 #c4cbb9;
+  --shadow-window: 6px 6px 0 rgb(28 74 50 / 0.25);
+  --shadow-glow: 0 0 0 3px rgb(47 125 79 / 0.12);
 
-  /* ---------- Animations ---------- */
   --animate-blink: blink 1s steps(1) infinite;
-  --animate-reveal: reveal 0.45s steps(5) both;
+  --animate-reveal: reveal 0.45s ease both;
 
   @keyframes blink {
-    50% {
-      opacity: 0;
-    }
+    50% { opacity: 0; }
   }
 
   @keyframes reveal {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
   }
 }
