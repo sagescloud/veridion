@@ -76,10 +76,24 @@ def compute_overall(results: list[ModuleResult]) -> Overall:
 
     escalation = None
     for r in results:
-        if r.id == "threat_reputation" and any(f.code == "CONFIRMED_PHISHING" for f in r.findings):
+        if r.id != "threat_reputation":
+            continue
+
+        finding_codes = {f.code for f in r.findings}
+
+        if "CONFIRMED_PHISHING" in finding_codes:
             escalation = Escalation(
                 code="CONFIRMED_PHISHING",
-                message="This address is listed as phishing by a threat intelligence source. Do not use it.")
+                message="This address is listed as phishing by a threat intelligence source. Do not use it.",
+            )
+            break
+
+        if "URLHAUS_MALICIOUS_URL" in finding_codes:
+            escalation = Escalation(
+                code="URLHAUS_MALICIOUS_URL",
+                message="URLhaus identifies this URL as a malicious destination. Do not interact with it.",
+            )
+            break
 
     if not scored and escalation is None:
         confidence.reasons.insert(0, "No analysis module produced a result, so no risk score can be given")
@@ -99,6 +113,7 @@ def compute_overall(results: list[ModuleResult]) -> Overall:
 # code -> actionable advice. P/frontend can extend. Unknown codes fall back to the finding's own text.
 _ADVICE = {
     "CONFIRMED_PHISHING": "Do not open this site or enter any information on it.",
+    "URLHAUS_MALICIOUS_URL": "URLhaus lists this URL as malicious. Do not open it or download anything from it.",
     "LOOKALIKE_DOMAIN": "Check the address carefully. It imitates a well-known brand. Go to the real site by typing its address yourself.",
     "NO_HTTPS": "Do not enter passwords or payment details: this site does not encrypt your data.",
     "REDIRECT_TO_DIFFERENT_DOMAIN": "Be cautious: this link sends you through another website before showing content.",
